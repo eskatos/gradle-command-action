@@ -21,7 +21,7 @@ export async function restoreCachedDependencies(
     if (fs.existsSync(cachePath)) return
     core.saveState(DEPENDENCIES_CACHE_PATH, cachePath)
 
-    const inputCacheExact = github.inputBoolean('dependencies-cache-exact')
+    const inputCacheExact = core.getBooleanInput('dependencies-cache-exact')
     const cacheKeyGlobs = inputCacheKeyGlobs('dependencies-cache-key')
 
     const hash = await crypto.hashFiles(rootDir, cacheKeyGlobs)
@@ -104,7 +104,7 @@ export function tryDeleteFiles(filePaths: string[]): boolean {
 }
 
 function isDependenciesCacheDisabled(): boolean {
-    return !github.inputBoolean('dependencies-cache-enabled', false)
+    return !core.getBooleanInput('dependencies-cache-enabled')
 }
 
 export function inputCacheKeyGlobs(input: string): string[] {
