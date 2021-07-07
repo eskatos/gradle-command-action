@@ -5,7 +5,6 @@ import * as os from 'os'
 import * as core from '@actions/core'
 import * as cache from '@actions/cache'
 
-import * as github from './github-utils'
 import * as crypto from './crypto-utils'
 
 const DEPENDENCIES_CACHE_PATH = 'DEPENDENCIES_CACHE_PATH'
@@ -108,8 +107,8 @@ function isDependenciesCacheDisabled(): boolean {
 }
 
 export function inputCacheKeyGlobs(input: string): string[] {
-    const inputValue = github.inputArrayOrNull(input)
-    return inputValue
+    const inputValue = core.getMultilineInput(input)
+    return inputValue.length > 0
         ? inputValue
         : [
               '**/*.gradle',
